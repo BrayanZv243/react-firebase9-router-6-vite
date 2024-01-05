@@ -1,33 +1,34 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../context/UserProvider";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
+import { useContext, useState } from "react";
 
-const Login = () => {
+const Register = () => {
+    const { registerUser } = useContext(UserContext);
     const [email, setEmail] = useState("brayan@test.com");
     const [password, setPassword] = useState("123123");
-    const { loginUser } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         console.log("Procesando Form...", email, password);
 
         try {
-            await loginUser(email, password);
-            console.log("Usuario Logeado");
+            await registerUser(email, password);
+            console.log("Usuario Creado");
             navigate("/");
         } catch (error) {
-            console.log(error.code);
-            if (error.code === "auth/invalid-credential")
-                alert("Credenciales Inválidas");
+            console.log(error);
+            if (error.code === "auth/email-already-in-use")
+                alert("Email en uso");
+            if (error.code === "auth/invalid-email") alert("Email inválido");
         }
     };
 
     return (
         <>
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
+            <h1>Register</h1>
+            <form onSubmit={handleRegister}>
                 <input
                     type="email"
                     placeholder="Ingrese Email"
@@ -40,10 +41,10 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
         </>
     );
 };
 
-export default Login;
+export default Register;
