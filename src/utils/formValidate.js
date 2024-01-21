@@ -8,9 +8,8 @@ export const formValidate = () => {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: "Formato de email incorrecto",
         },
-        minLength: {
-            value: 6,
-            message: "Mínimo 6 carácteres en contraseña.",
+        minLength(value) {
+            return { value, message: "Mínimo 6 carácteres en contraseña." };
         },
         validateTrim: {
             trim: (v) => {
@@ -18,11 +17,9 @@ export const formValidate = () => {
                 return true;
             },
         },
-        validateEquals(getValues) {
+        validateEquals(value) {
             return {
-                equals: (v) =>
-                    v === getValues("password") ||
-                    "No coinciden las contraseñas",
+                equals: (v) => v === value || "No coinciden las contraseñas",
             };
         },
     };

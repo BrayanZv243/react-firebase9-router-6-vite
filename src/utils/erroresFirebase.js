@@ -1,12 +1,29 @@
 export const erroresFirebase = (code) => {
     switch (code) {
         case "auth/invalid-credential":
-            return "Credenciales Inválidas";
+            return {
+                code: "email",
+                message: "Credenciales Inválidas",
+            };
         case "auth/email-already-in-use":
-            return "Usuario ya registrado";
+            return {
+                code: "password",
+                message: "Usuario ya registrado",
+            };
         case "auth/invalid-email":
-            return "Email inválido";
+            return {
+                code: "password",
+                message: "Email inválido",
+            };
+        case "auth/too-many-requests":
+            return {
+                code: "password",
+                message: "¡Tranquilo vaquero, más despacio!",
+            };
         default:
-            return "Ocurrió un error inesperado";
+            return {
+                code: "email",
+                message: "Ocurrió un error inesperado",
+            };
     }
 };
